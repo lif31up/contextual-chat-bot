@@ -1,0 +1,13 @@
+# object1
+- tag: object1
+  patterns:
+    - element1
+    - element2
+# object1
+
+# object2
+- tag: object2
+  patterns:
+    - element1
+    - element2
+# object2
