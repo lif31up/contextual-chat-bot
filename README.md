@@ -9,3 +9,5 @@ Using DNN, understand context and reponse properly to help the user.
 * numpy
 * alive_progress
 * yaml
+* speech_recognition
+* youtube_dl
