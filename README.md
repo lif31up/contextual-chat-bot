@@ -1,13 +1,9 @@
-# Hiana-the-Discord-bot
-Using DNN, understand context and reponse properly to help the user.
-
-# 하이아나 디스코드 봇
-딥러닝을 통해 문맥을 이해하여 알맞은 응답을 함으로써 사용자를 돕습니다.
-
-## import
-* torch
-* numpy
-* alive_progress
-* yaml
-* speech_recognition
-* youtube_dl
+# 딥러닝을 통해 디스코드 사용자를 돕습니다.
+`torch`를 통해 만든 딥러닝 모델과 `Discord API`를 통해 사용자를 돕는 봇을 만듭니다. 따로 정해진 접두사나 명령어 없이 사용자의 문자를 알아서 분석하고 그에 맞는 행동을 취합니다.
+### 직접 작성된 코드를 확인해보세요
+* `src`엔 `torch`와 관련된 코드가 위치해있습니다.
+* `__init__.py`는 Discord 봇을 구동하는 코드입니다.
+* `data`에는 모델이 참고해야 할 자료가 위치합니다.
+---
+## 사용하기
+`run.exe`를 실행하여 문자 기반 인터페이스에 접근합니다.

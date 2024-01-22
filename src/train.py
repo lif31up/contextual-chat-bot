@@ -1,20 +1,19 @@
 import sys
-import numpy as np
 import alive_progress
 import torch
 from torch.utils.data import DataLoader
 
-from model import NeuralNet
-from mod import tokenize, bag_of_words
-from loader import yaml_loader
+from src.models.context_model import NeuralNet
+from src.data.yaml import YamlLoader
 
-try: filename = sys.argv[-1]
-except: exit()
+try:
+    filename = sys.argv[-1]
+except:
+    exit()
 
-trainset = yaml_loader(filename=filename)
+trainset = YamlLoader(filename=filename)
 loader = DataLoader(dataset=trainset, batch_size=1, shuffle=True, num_workers=0)
 
-# Hyper Prameter
 iterations = 1000
 n_inpt_parms = trainset.data_size
 n_hidn_parms = int(len(trainset.dictionary) * 1.2)
@@ -32,16 +31,16 @@ for epoch in progress_bar:
         optim.zero_grad()
         loss.backward()
         optim.step()
-# for for
+
 print(f"loss: {loss.item():.4f}")
 
 features = {
-    "state" : model.state_dict(),
-    "inpt" : n_inpt_parms,
-    "hidn" : n_hidn_parms,
-    "oupt" : n_oupt_parms,
-    "dict" : trainset.dictionary,
-    "tags" : trainset.tags
+    "state": model.state_dict(),
+    "inpt": n_inpt_parms,
+    "hidn": n_hidn_parms,
+    "oupt": n_oupt_parms,
+    "dict": trainset.dictionary,
+    "tags": trainset.tags,
 }  # features
 
 save_path = "./model.pth"
