@@ -2,5 +2,5 @@
 .idea
 
 # raw data
-data/raw/trainset.yaml
-data/processed/model.pth
+src/data/processed/model.pth
+src/data/raw/trainset.yaml
