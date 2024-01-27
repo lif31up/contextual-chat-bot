@@ -3,3 +3,4 @@
 
 # raw data
 data/raw/trainset.yaml
+data/processed/model.pth
