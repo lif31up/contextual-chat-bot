@@ -36,4 +36,4 @@ features = {
     "tags": train_set.tags,
 }  # features
 
-torch.save(features, "../src/data/processed/model.pth")
+torch.save(features, "../src/models/context_model.pth")

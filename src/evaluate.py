@@ -3,7 +3,7 @@ import torch
 from src.models.context_model import NeuralNet
 from data.tokenize import *
 
-data = torch.load("../data/processed/model.pth")
+data = torch.load("../src/models/context_model.pth")
 state = data["state"]
 n_inpt_parms, n_hidn_parms, n_oupt_parms = data["inpt"], data["hidn"], data["oupt"]
 dictionary, tags = data["dict"], data["tags"]
