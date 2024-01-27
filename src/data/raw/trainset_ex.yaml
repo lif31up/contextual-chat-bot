@@ -1,0 +1,13 @@
+- tag: "context 1"
+  patterns:
+    - pattern 0
+    - pattern 1
+    - pattern 2
+# context 1
+
+- tag: "context 2"
+  patterns:
+    - pattern 0
+    - pattern 1
+    - pattern 2
+# context 2

@@ -1,0 +1,14 @@
+- tag: "greeting"
+  patterns:
+    - hello, nice to meet you
+    - nice to meet you
+    - hello, i like you
+    - it's a nice day
+# context 1
+
+- tag: "name"
+  patterns:
+    - "what's your name?"
+    - "did you have a name?"
+    - "tell your name"
+# context 2

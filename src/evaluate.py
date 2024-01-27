@@ -13,20 +13,24 @@ model = NeuralNet(n_inpt_parms, n_hidn_parms, n_oupt_parms).to(device)
 model.load_state_dict(state)
 model.eval()
 
+
+def get_input():
+  pattern = input("input: ")
+  return pattern if pattern != "exit" else exit(0)
+# get_input():
+
 while 1:
-    cmd = input("input: ")
-    if cmd == "exit":
-        exit()
-    sentence = tokenize(cmd)
-    bag = bag_of_words(cmd, dictionary)
-    bag = torch.from_numpy(bag.reshape(1, bag.shape[0]))
-    output = model(bag)
-    _, predicted = torch.max(output, dim=1)
-    tag = tags[predicted.item()]
-    probs = torch.softmax(output, dim=1)
-    prob = probs[0][predicted.item()]
-    if prob.item() > 0.45:
-        print(f"output: {tag}", end="\n")
-    else:
-        print(f"output: idk", end="\n")
+  input = get_input()
+  sentence = tokenize(input)
+  bag = bag_of_words(input, dictionary)
+  bag = torch.from_numpy(bag.reshape(1, bag.shape[0]))
+  output = model(bag)
+  _, predicted = torch.max(output, dim=1)
+  tag = tags[predicted.item()]
+  probs = torch.softmax(output, dim=1)
+  prob = probs[0][predicted.item()]
+  if prob.item() > 0.45:
+    print(f"output: {tag}", end="\n")
+  else:
+    print(f"output: idk", end="\n")
 # while

@@ -1,6 +1,3 @@
-import sys
-import time
-
 from tqdm import tqdm
 import torch
 from torch.utils.data import DataLoader
@@ -8,7 +5,7 @@ from torch.utils.data import DataLoader
 from src.models.context_model import NeuralNet
 from src.data.yaml import YamlLoader
 
-train_set = YamlLoader(filename="../data/raw/trainset.yaml")
+train_set = YamlLoader(filename="../src/data/raw/trainset.yaml")
 loader = DataLoader(dataset=train_set, batch_size=1, shuffle=True, num_workers=0)
 
 iterations = 100
@@ -39,4 +36,4 @@ features = {
     "tags": train_set.tags,
 }  # features
 
-torch.save(features, "../data/processed/model.pth")
+torch.save(features, "../src/data/processed/model.pth")
