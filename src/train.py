@@ -9,13 +9,13 @@ train_set = YamlLoader(filename="../src/data/raw/trainset.yaml")
 loader = DataLoader(dataset=train_set, batch_size=1, shuffle=True, num_workers=0)
 
 iterations = 100
-n_inpt_parms = train_set.data_size
-n_hidn_parms = int(len(train_set.dictionary) * 1.2)
-n_oupt_parms = train_set.n_tags
-print(f'input parameters: {n_inpt_parms}\nhidden parameters: {n_hidn_parms}\noutput parameters: {n_oupt_parms}')
+n_inpt_params = train_set.data_size
+n_hidn_params = int(len(train_set.dictionary) * 1.2)
+n_oupt_params = train_set.n_tags
+print(f'input parameters: {n_inpt_params}\nhidden parameters: {n_hidn_params}\noutput parameters: {n_oupt_params}\niterations: {iterations}')
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = NeuralNet(n_inpt_parms, n_hidn_parms, n_oupt_parms).to(device=device)
+model = NeuralNet(n_inpt_params, n_hidn_params, n_oupt_params).to(device=device)
 criterion = torch.nn.CrossEntropyLoss()
 optim = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.001)
 
@@ -29,9 +29,9 @@ print(f"loss: {loss.item():.4f}")
 
 features = {
     "state": model.state_dict(),
-    "inpt": n_inpt_parms,
-    "hidn": n_hidn_parms,
-    "oupt": n_oupt_parms,
+    "inpt": n_inpt_params,
+    "hidn": n_hidn_params,
+    "oupt": n_oupt_params,
     "dict": train_set.dictionary,
     "tags": train_set.tags,
 }  # features
