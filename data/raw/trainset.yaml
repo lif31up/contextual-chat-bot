@@ -1,13 +1,18 @@
 # object1
-- tag: object1
+- tag: "greeting"
   patterns:
-    - element1
-    - element2
+    - "hello"
+    - "hi, it's a nice day"
+    - "nice to meet you"
+    - "hey, there! it's good to see you"
 # object1
 
 # object2
-- tag: object2
+- tag: "swear"
   patterns:
-    - element1
-    - element2
+    - "fuck you"
+    - "fuck off"
+    - "what the hell"
+    - "shut up"
+    - "shut it"
 # object2

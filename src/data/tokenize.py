@@ -10,7 +10,7 @@ def tokenize(pattern):
   pattern = stemmer.stem(pattern)
 
   for i, letter in enumerate(pattern):
-    if letter in ignored_characters: del pattern[i]
+    if letter in ignored_characters: pattern.replace(letter, '')
 
   return [stemmer.stem(word.lower()) for word in pattern]
 

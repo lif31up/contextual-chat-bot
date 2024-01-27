@@ -3,12 +3,7 @@ import torch
 from src.models.context_model import NeuralNet
 from data.tokenize import *
 
-try:
-    filename = sys.argv[-1]
-except:
-    exit()
-
-data = torch.load(filename)
+data = torch.load("../data/processed/model.pth")
 state = data["state"]
 n_inpt_parms, n_hidn_parms, n_oupt_parms = data["inpt"], data["hidn"], data["oupt"]
 dictionary, tags = data["dict"], data["tags"]
@@ -19,7 +14,7 @@ model.load_state_dict(state)
 model.eval()
 
 while 1:
-    cmd = input("me> ")
+    cmd = input("input: ")
     if cmd == "exit":
         exit()
     sentence = tokenize(cmd)
@@ -30,8 +25,8 @@ while 1:
     tag = tags[predicted.item()]
     probs = torch.softmax(output, dim=1)
     prob = probs[0][predicted.item()]
-    if prob.item() > 0.75:
-        print(f"hiana> {tag}", end="\n\n")
+    if prob.item() > 0.45:
+        print(f"output: {tag}", end="\n")
     else:
-        print(f"hiana: idk", end="\n\n")
+        print(f"output: idk", end="\n")
 # while
