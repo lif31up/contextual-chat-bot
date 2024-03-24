@@ -3,12 +3,12 @@ import torch
 from torch.utils.data import DataLoader
 
 from src.models.context_model import NeuralNet
-from src.data.yaml import YamlLoader
+from src.data.yaml import Loader
 
-train_set = YamlLoader(filename="../src/data/raw/trainset.yaml")
+train_set = Loader(filename="../src/data/raw/trainset.yaml")
 loader = DataLoader(dataset=train_set, batch_size=1, shuffle=True, num_workers=0)
 
-iterations = 100
+iterations = 1000
 n_inpt_params = train_set.data_size
 n_hidn_params = int(len(train_set.dictionary) * 1.2)
 n_oupt_params = train_set.n_tags

@@ -1,7 +1,6 @@
-import sys
 import torch
 from src.models.context_model import NeuralNet
-from data.tokenize import *
+from src.data.transform import BOFTransformer
 
 data = torch.load("../src/models/context_model.pth")
 state = data["state"]
@@ -19,10 +18,12 @@ def get_input():
   return pattern if pattern != "exit" else exit(0)
 # get_input():
 
+transformer = BOFTransformer()
+transformer.wordbook = dictionary
+
 while 1:
-  input = get_input()
-  sentence = tokenize(input)
-  bag = bag_of_words(input, dictionary)
+  pattern = get_input()
+  bag = transformer.transform(pattern)
   bag = torch.from_numpy(bag.reshape(1, bag.shape[0]))
   output = model(bag)
   _, predicted = torch.max(output, dim=1)
