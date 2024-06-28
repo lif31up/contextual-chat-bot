@@ -1,0 +1,46 @@
+- tag: "greet"
+  patterns:
+    - hello nice to meet you
+    - what a nice day
+    - welcome
+    - good day
+    - nice day
+    - hello
+    - hi hello, nice to meet you
+# context 1
+
+- tag: "introduce"
+  patterns:
+    - what is your name
+    - tell me about yourself
+    - what is you
+    - who are you
+    - who the fuck are you
+    - let me introduce yourself
+    - what is your name
+    - what is your name
+    - tell me about yourself
+    - what is you
+    - who are you
+    - who the fuck are you
+    - let me introduce yourself
+    - what is your name
+# context 2
+
+- tag: "music"
+  patterns:
+    - recommend me a song
+    - give me a sound
+    - make me music
+    - recommend me music
+    - music recommendation
+    - let me hear a new song
+    - song recommendation
+    - recommend me a song
+    - give me a sound
+    - make me music
+    - recommend me music
+    - music recommendation
+    - let me hear a new song
+    - song recommendation
+# context 3

@@ -1,43 +1,38 @@
-from nltk.stem.porter import PorterStemmer
-import yaml
-import numpy as np
+import torch
+from typing import Callable
 
-stemmer: PorterStemmer = PorterStemmer()
+def tokenize(raw_string: str, stemmer) -> list: return [stemmer.stem(token) for token in raw_string.split(' ')]
 
-def tokenize(raw) -> list: return [stemmer.stem(raw) for element in raw.split(' ')]
-def bag(pattern, dictionary) -> np.ndarray:
-  bag_of_word = np.zeros(len(dictionary), dtype=np.float32)
-  for index, element in enumerate(dictionary):
-    if element in pattern: bag_of_word[index] = 1
-  # for
-  return bag_of_word
-# bag()
-def transform(raw, dictionary) -> np.ndarray:
-  bag_of_word = np.zeros(len(dictionary), dtype=np.float32)
-  for index, element in enumerate(dictionary):
-    if element in tokenize(raw): bag_of_word[index] = 1
-  # for
-  return bag_of_word
-# transform()
+def tokens_to_bag(raw_string: str, dictionary: list, tokenizer: Callable) -> torch.tensor:
+  if not dictionary:
+    print("dictionary is not valid.")
+    return None
+  bag = torch.zeros(len(dictionary))
+  for index, word in enumerate(dictionary):
+    if word in tokenizer(raw_string): bag[index] = 1.
+  # for if
+  return bag
+# token_to_bag():
 
-class Dictionary:
-  dictionary, tags, data = list(), list(), None
-  def __init__(self, path):
-    if path:
-      self.get_data(path)
+def yml_to_dict(yml_data: list, tokenizer: Callable) -> list:
+    dictionary = []
+    for intent in yml_data:
+      for word in intent['patterns']:
+        for token in tokenizer(word):
+          dictionary.append(token)
+    # for for
+    return list(set(dictionary))
+# yml_to_dict():
 
-  def get_data(self, path):
-    with open(path) as file:
-      self.data = yaml.load(file, Loader=yaml.FullLoader)
-    # with
+def yml_to_xy(yml_data: list, transform: Callable, dictionary: list)->list:
+  xy = list()
+  for index, intent in enumerate(yml_data):
+    for pattern in intent['patterns']:
+      y = torch.zeros(len(yml_data))
+      y[index] = 1.
+      xy.append((transform(pattern, dictionary), y))
+  # for for
+  return xy
+# yml_to_item()
 
-    for intent in self.data:
-      tag = intent["tag"]
-      self.tags.append(tag)
-      for raw in intent["patterns"]:
-        pattern = tokenize(raw)
-        self.dictionary.extend(pattern)
-    # for
-  # get_data()
-  def transform:
-# Dictionary
+def yml_to_tag(yml_data: list) -> list: return [intent['tag'] for intent in yml_data]
