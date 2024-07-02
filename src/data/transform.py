@@ -1,36 +1,36 @@
 import torch
 from typing import Callable
 
-def tokenize(raw_string: str, stemmer) -> list: return [stemmer.stem(token) for token in raw_string.split(' ')]
+def tokenize(string: str, stemmer) -> list: return [stemmer.stem(token) for token in string.split(' ')]
 
-def tokens_to_bag(raw_string: str, dictionary: list, tokenizer: Callable) -> torch.tensor:
+def tokens_to_bag(string: str, dictionary: list, tokenize: Callable) -> torch.tensor:
   if not dictionary:
     print("dictionary is not valid.")
     return None
   bag = torch.zeros(len(dictionary))
   for index, word in enumerate(dictionary):
-    if word in tokenizer(raw_string): bag[index] = 1.
+    if word in tokenize(string): bag[index] = 1.
   # for if
   return bag
 # token_to_bag():
 
-def yml_to_dict(yml_data: list, tokenizer: Callable) -> list:
+def yml_to_dict(data: list, tokenize: Callable) -> list:
     dictionary = []
-    for intent in yml_data:
+    for intent in data:
       for word in intent['patterns']:
-        for token in tokenizer(word):
+        for token in tokenize(word):
           dictionary.append(token)
     # for for
     return list(set(dictionary))
 # yml_to_dict():
 
-def yml_to_xy(yml_data: list, transform: Callable, dictionary: list)->list:
+def yml_to_xy(data: list, transform: Callable)->list:
   xy = list()
-  for index, intent in enumerate(yml_data):
+  for index, intent in enumerate(data):
     for pattern in intent['patterns']:
-      y = torch.zeros(len(yml_data))
+      y = torch.zeros(len(data))
       y[index] = 1.
-      xy.append((transform(pattern, dictionary), y))
+      xy.append((transform(pattern), y))
   # for for
   return xy
 # yml_to_item()

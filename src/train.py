@@ -3,38 +3,41 @@ import torch
 from torch.utils.data import DataLoader
 
 # custom importing
+from src.data.transform import tokenize, tokens_to_bag
 from src.models.context_model import NeuralNet
-from src.data.transform import BOWDataSet
+from src.data.custom_dataset import BOWDataSet
 
-train_set = BOWDataSet("../src/data/raw/trainset.yml")
-loader = DataLoader(dataset=train_set, batch_size=1, shuffle=True, num_workers=0)
+trainset = BOWDataSet("../src/data/raw/trainset.yml", tokenizer=tokenize, transform=tokens_to_bag)
+loader = DataLoader(dataset=trainset, batch_size=32, shuffle=True, num_workers=0)
 
 iterations = 1000
-n_inpt_params = len(train_set.dictionary)
-n_hidn_params = 1000
-n_oupt_params = len(train_set.tags)
-print(f'input parameters: {n_inpt_params}\nhidden parameters: {n_hidn_params}\noutput parameters: {n_oupt_params}\niterations: {iterations}')
+n_inpt = len(trainset.dictionary)
+n_hidn = int(n_inpt * 1.2)
+n_oupt = len(trainset.tags)
+print(f'input parameters: {n_inpt}\nhidden parameters: {n_hidn}\noutput parameters: {n_oupt}\niterations: {iterations}')
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = NeuralNet(n_inpt_params, n_hidn_params, n_oupt_params).to(device=device)
+model = NeuralNet(n_inpt, n_hidn, n_oupt).to(device=device)
 criterion = torch.nn.CrossEntropyLoss()
-optim = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=0.001)
+optim = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=0.01)
 
-for x, y in tqdm(loader):
-    loss = criterion(model.forward(x), y)
-    optim.zero_grad()
-    loss.backward()
-    optim.step()
+for _ in tqdm(range(iterations)):
+    for x, y in loader:
+        loss = criterion(model.forward(x), y)
+        optim.zero_grad()
+        loss.backward()
+        optim.step()
+# for for
 
 print(f"loss: {loss.item():.4f}")
 
 features = {
     "state": model.state_dict(),
-    "inpt": n_inpt_params,
-    "hidn": n_hidn_params,
-    "oupt": n_oupt_params,
-    "dict": train_set.dictionary,
-    "tags": train_set.tags,
+    "inpt": n_inpt,
+    "hidn": n_hidn,
+    "oupt": n_oupt,
+    "dict": trainset.dictionary,
+    "tags": trainset.tags,
 }  # features
 
 torch.save(features, "../src/models/context_model.pth")
