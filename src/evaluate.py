@@ -1,17 +1,19 @@
 import torch
 
-from src.data.transform import tokens_to_bag
 from src.models.context_model import NeuralNet
 
-data = torch.load("../src/models/context_model.pth")
-state = data["state"]
-n_inpt, n_hidn, n_oupt = data["inpt"], data["hidn"], data["oupt"]
-dictionary, tags = data["dict"], data["tags"]
+def main():
+  data = torch.load("../src/models/context_model.pth")
+  state = data["state"]
+  n_inpt, n_hidn, n_oupt = data["inpt"], data["hidn"], data["oupt"]
+  dictionary, tags = data["dict"], data["tags"]
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = NeuralNet(n_inpt, n_hidn, n_oupt).to(device)
-model.load_state_dict(state)
-model.eval()
+  device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+  model = NeuralNet(n_inpt, n_hidn, n_oupt).to(device)
+  model.load_state_dict(state)
+  model.eval()
+# __main__
+if __name__ == "__main__": main()
 
 """
 while 1:
