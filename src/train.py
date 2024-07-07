@@ -11,16 +11,15 @@ def init_dataloader(file_path: str) -> tuple:
     return DataLoader(dataset=trainset, batch_size=32, shuffle=True, num_workers=0), trainset
 # init_dataloader()
 
-def main(file_path: str):
-    try: loader, trainset = init_dataloader(file_path)
+def main(path: str, iters=1000):
+    try: loader, trainset = init_dataloader(path)
     except Exception as e: return 1
 
     # hyper parameter
-    iterations = 1000
     n_inpt = len(trainset.dictionary)
     n_hidn = int(n_inpt * 1.2)
-    n_oupt = len(trainset.tags)
-    print(f'hidden nodes\' weight: {n_hidn}\niterations: {iterations}')
+    n_oupt = len(trainset.labels)
+    print(f'hidden nodes\' weight: {n_hidn}\niterations: {iters}')
 
     # read to train
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -29,7 +28,7 @@ def main(file_path: str):
     optim = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=0.01)
 
     # tra!n
-    for _ in tqdm(range(iterations)):
+    for _ in tqdm(range(iters)):
         for x, y in loader:
             loss = criterion(model.forward(x), y)
             optim.zero_grad()
@@ -44,8 +43,8 @@ def main(file_path: str):
         "inpt": n_inpt,
         "hidn": n_hidn,
         "oupt": n_oupt,
-        "dict": trainset.dictionary,
-        "tags": trainset.tags,
+        "dictionary": trainset.dictionary,
+        "labels": trainset.labels,
     }  # features
     torch.save(features, "./src/models/context_model.pth")
 

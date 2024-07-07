@@ -1,60 +1,39 @@
 import argparse
 
-def main():
-  parser = argparse.ArgumentParser(description="main cli")
-
-  parser.add_argument("path", type=str, help="type your train set path")
-  parser.add_argument("--iter", type=int, help="iteration numbers")
-# main():
-
-
-
-
 FAIL, SUCCESS = 1, 0
-EXIT, NONE, TRAIN, EVAL, INSPECT = -1, 0, 1, 2, 3
 
-def cmd_interface(string: str) -> int:
-  buffer, ERROR = string.strip(), -2
-
-  match buffer:
-    case "exit": exit(buffer)
-    case "train": return TRAIN
-    case "eval": return EVAL
-    case "inspect": return INSPECT
-    case "": return NONE
-  # match
-
-  return ERROR
-# cmd_interface
-
-def init_train() -> int:
+def init_train(path: str, iters: int) -> int:
   import src.train as train
-  file_path: str = input("* hint: press enter to use default trainset path\npath> ").strip()
-  if file_path.strip() == "": file_path = "./src/data/raw/trainset.yml"
-  try: return train.main(file_path)
-  except Exception as e: print(f"error: {e}")
-  return FAIL
+  error_code = FAIL
+
+  try:
+    train.main(path.strip(), iters)
+    error_code = SUCCESS
+  except Exception as e: print(f"{e}")
+
+  return error_code
 # init_train()
 
-def init_eval():
-  import src.evaluate as eval
-  eval.__main__()
+def init_eval(path: str) -> int:
+  import src.eval as eval
+  eval.main(path)
 # init_eval()
 
-def init_inspect():
-  print("not yet...")
-# init_inspect
-
-init_funcs = [lambda _=0: _, init_train, init_eval,init_inspect]
-
 def main():
-  epoch: int = 0
-  while 1:
-    if epoch > 100: print(f"prog] exit with maximum tries of {exit(-epoch)}")
-    cmd_buffer = cmd_interface(input("command> "))
-    if cmd_buffer == EXIT: exit(0)
-    if init_funcs[cmd_buffer]() == FAIL: print(f"error: {init_funcs[cmd_buffer]}")
-    epoch += 1
-  # while
-# __init__()
+  parser = argparse.ArgumentParser(description="maincmd")
+
+  parser.add_argument("--path", type=str, help="path of your model")
+
+  subparser = parser.add_subparsers(title="subcmd")
+  parser_train = subparser.add_parser("train", help="train your model")
+  parser_train.add_argument("--path", type=str, help="type your model path")
+  parser_train.add_argument("--iters", type=int, help="type your iterations")
+  parser_train.set_defaults(func=lambda path, iters: init_train(path, iters))
+
+  args = parser.parse_args()
+  if hasattr(args, 'func'): args.func(path=args.path, iters=args.iters)
+  elif args.path: init_eval(args.path)
+  else: print("invalid argument. exiting program.")
+# main():
+
 if __name__ == "__main__": main()
