@@ -1,6 +1,16 @@
-# 딥러닝을 통해 디스코드 사용자를 돕습니다.
-`torch`를 통해 만든 딥러닝 모델과 `Discord API`를 통해 사용자를 돕는 봇을 만듭니다. 따로 정해진 접두사나 명령어 없이 사용자의 문자를 알아서 분석하고 그에 맞는 행동을 취합니다.
-### 직접 작성된 코드를 확인해보세요
-* `src/data/raw`에는 훈련자료가 위치합니다. 그리고 `src/train.py`를 통해 훈련을 진행합니다.
-* `src/evaluate.py`를 통해 모델의 동작을 평가할 수 있습니다.
----
+# Contextual Understanding using torch ANN
+this model does NLP with **bag of word** concept; its function is to sort any patterns into desirable context.
+
+### Import
+* `nltk`
+* `torch`
+* `yaml`
+* `tqdm`
+
+### Learn about its commands
+this bot has evaluation as main-command and train as sub-command. Each of them has own arguments.
+
+* `--path`: path of your pth file.
+* `train`
+  * `--path <trainset_path>`: path of your train set file(yml format)
+  * `--iters <number_iterations>`: numbers to your model iterate for training
