@@ -1,0 +1,14 @@
+- tag: "greet"
+  patterns:
+    - nice 2 meet you two
+# context 1
+
+- tag: "introduce"
+  patterns:
+    - my name is Haiana the chatbot
+# context 2
+
+- tag: "music"
+  patterns:
+    - i'm not ur music recommend bot
+# context 3
