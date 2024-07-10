@@ -6,7 +6,6 @@ from nltk.stem.porter import PorterStemmer
 
 from src.data.transform import yml_to_dict, yml_to_xy, yml_to_tag
 
-
 class BOWDataSet(Dataset):
   def __init__(self, yml_file: str, tokenizer: Callable, transform: Callable):
     with open(yml_file) as file: self.proto_data = yaml.safe_load(file)
