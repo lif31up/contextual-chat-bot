@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader
 
 from src.data.transform import tokenize, tokens_to_bag
 from src.models.context_model import NeuralNet
-from src.data.custom_dataset import BOWDataSet
+from src.data.BOWDataset import BOWDataSet
 
 def init_dataloader(file_path: str) -> tuple:
     trainset = BOWDataSet(file_path, tokenizer=tokenize, transform=tokens_to_bag)
