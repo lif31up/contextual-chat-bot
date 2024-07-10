@@ -27,7 +27,7 @@ class BOWDataSet(Dataset):
     return bag, label
 # BOWDataSet
 
-def visualize_dataset(dataset: Dataset, data_range: tuple):
+def BODWDataset_visualize(dataset: Dataset, data_range: tuple):
   start, end = data_range
   for idx in range(start, end):
     x, y = dataset.data[idx]
