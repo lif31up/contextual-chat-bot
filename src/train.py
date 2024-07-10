@@ -3,17 +3,12 @@ import torch
 from torch.utils.data import DataLoader
 
 from src.data.transform import tokenize, tokens_to_bag
-from src.models.context_model import NeuralNet
+from src.model.NeuralNet import NeuralNet
 from src.data.BOWDataset import BOWDataSet
 
-def init_dataloader(file_path: str) -> tuple:
-    trainset = BOWDataSet(file_path, tokenizer=tokenize, transform=tokens_to_bag)
-    return DataLoader(dataset=trainset, batch_size=32, shuffle=True, num_workers=0), trainset
-# init_dataloader()
-
-def main(path: str, iters=1000):
-    try: loader, trainset = init_dataloader(path)
-    except Exception as e: return 1
+def main(path: str, save_to: str, iters=1000):
+    trainset = BOWDataSet(path, tokenizer=tokenize, transform=tokens_to_bag)
+    loader = DataLoader(dataset=trainset, batch_size=32, shuffle=True, num_workers=0)
 
     # hyper parameter
     n_inpt = len(trainset.dictionary)
@@ -46,8 +41,7 @@ def main(path: str, iters=1000):
         "dictionary": trainset.dictionary,
         "labels": trainset.labels,
     }  # features
-    torch.save(features, "./src/models/context_model.pth")
-
-    return 0
+    torch.save(features, save_to)
 # __main__
-if __name__ == "__main__": main()
+
+if __name__ == "__main__": main("../src/data/raw/trainset.yml", "../src/model/context_model.pth", iters=1000)
