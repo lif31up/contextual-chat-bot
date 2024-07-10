@@ -10,6 +10,6 @@ this model does NLP with **bag of word** concept; its function is to sort any pa
 ### Learn about its commands
 this bot has evaluation as main-command and train as sub-command. Each of them has own arguments.
 
-* `run --path <path>`: path of your pth file.
+* `run --path <path>`: evaluate your model.
 * `run train --path <trainset_path> --iters <number_iterations>`: train your model.
 * `run chat --path <model_path> --response <responses_path>`: chat with your model.
