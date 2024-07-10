@@ -9,6 +9,6 @@ this model does NLP with **bag of word** concept; its function is to sort any pa
 
 ### Learn about the commands
 `python run.py --help`
-* `run --path <path>`: evaluate your model.
-* `run train --path <trainset_path> --iters <number_iterations>`: train your model.
-* `run chat --path <model_path> --response <responses_path>`: chat with your model.
+* `python run --path <path>`: evaluate your model.
+* `python run train --path <trainset_path> --iters <number_iterations>`: train your model.
+* `python run chat --path <model_path> --response <responses_path>`: chat with your model.
