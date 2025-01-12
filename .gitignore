@@ -7,5 +7,5 @@
 # extension
 *.pth
 
-# safetensor
-*.safetensor
+# parameter
+*.pth
