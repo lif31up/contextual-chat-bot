@@ -23,7 +23,7 @@ python run.py --path <path>
 ### 2. Train Model
 Train your model on a specified training dataset and set the number of iterations for training.
 ```
-python run.py train --path <trainset_path> --iters <number_iterations>
+python run.py train --path <trainset_path> --save-to <model_path> --iters <number_iterations>
 ```
 * `<trainset_path>`: Path to your training data file (e.g., train.json or CSV).
 * `<number_iterations>`: Number of training iterations to run. This controls how many times the model will learn from the data.
