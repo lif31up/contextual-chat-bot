@@ -1,17 +1,17 @@
+import yaml
 from tqdm import tqdm
 import torch
 from torch.utils.data import DataLoader
-
-from src.data.transform import tokenize, tokens_to_bag
 from src.model.NeuralNet import NeuralNet
 from src.data.BOWDataset import BOWDataSet
 
 def main(path: str, save_to: str, iters=1000):
-    trainset = BOWDataSet(path, tokenizer=tokenize, transform=tokens_to_bag)
+    with open(path) as file: dataset = yaml.safe_load(file)
+    trainset = BOWDataSet(dataset)
     loader = DataLoader(dataset=trainset, batch_size=32, shuffle=True, num_workers=0)
 
     # hyper parameter
-    n_inpt = len(trainset.dictionary)
+    n_inpt = len(trainset.transformer.dictionary)
     n_hidn = int(n_inpt * 1.2)
     n_oupt = len(trainset.labels)
     print(f'hidden nodes\' weight: {n_hidn}\niterations: {iters}')
