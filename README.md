@@ -12,6 +12,7 @@ The chatbot leverages the Bag-of-Words (BoW) technique to represent user inputs 
 * Stemming: Reducing words to their root form (e.g., "running" to "run").
 * Bag-of-Words (BoW): Converting text into a fixed-length vector, where each element represents the frequency of a particular word from a vocabulary.
 
+---
 ## CLI
 ### 1. Evaluate Model
 Use this command to evaluate your trained model on a specified dataset.
@@ -35,3 +36,26 @@ python run.py chat --path <model_path> --response <responses_path>
 ```
 * `<model_path>`: Path to the trained model you wish to interact with.
 * `<responses_path>`: Path to the responses file that contains predefined responses associated with various intents.
+---
+## 커맨드 라인 인터페이스
+### 1. 모델 평가
+훈련된 모델을 특정 데이터셋에서 평가하려면 아래 명령어를 사용하세요.
+```
+python run.py --path <path>
+```
+* `<path>`: 평가하려는 모델 또는 데이터셋의 경로를 지정합니다.
+### 2. 모델 훈련
+지정된 훈련 데이터셋을 기반으로 모델을 학습시키고, 학습 반복 횟수를 설정합니다.
+```
+python run.py chat --path <model_path> --response <responses_path>
+```
+* `<trainset_path>`: 훈련 데이터 파일의 경로 (예: `train.json`, `train.csv`).
+* `<model_path>`: 학습된 모델을 저장할 경로를 지정합니다.
+* `<number_iterations>`: 학습 반복 횟수. 데이터에서 학습을 수행하는 횟수를 설정합니다.
+### 3. 채팅
+훈련된 모델과 대화를 나눌 수 있습니다. 챗봇은 훈련 데이터를 기반으로 사용자의 입력에 응답합니다.
+```
+python run.py chat --path <model_path> --response <responses_path>
+```
+* `<model_path>`: 상호작용할 훈련된 모델의 경로를 지정합니다.
+* `<responses_path>`: 다양한 의도(intent)에 대한 사전 정의된 응답을 포함한 파일 경로를 지정합니다.
