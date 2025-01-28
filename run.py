@@ -1,16 +1,16 @@
 import argparse
 
-def train(path: str, save_to: str, iters: int) -> int:
+def train(path: str, save_to: str, iters: int):
   import src.train as trainer
   trainer.main(path.strip(), save_to, iters)
 # init_train()
 
-def eval(path: str) -> int:
+def eval(path: str):
   import src.eval as evaler
   evaler.main(path)
 # init_eval()
 
-def chat(path: str, response_path: str) -> int:
+def chat(path: str, response_path: str):
   import src.chat as chatter
   chatter.main(path, response_path)
 # init_chat
