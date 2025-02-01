@@ -1,4 +1,6 @@
 `nltk` `torch` `yaml` `tqdm`
+* **task**: classifying context of the input string, then the model responses based on it.
+* **dataset**: integrated with `yaml` format document.
 
 ## Contextual Understanding Chatbot using Bag-of-Words (BoW)
 This project is a Contextual Understanding Chatbot that uses Bag-of-Words (BoW) for text processing. The chatbot is designed to understand and respond to user inputs by converting text data into numerical representations, allowing the model to process and match patterns in conversations.
