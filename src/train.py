@@ -23,6 +23,7 @@ def main(path: str, save_to: str, iters=1000):
     optim = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=0.01)
 
     # tra!n
+    loss = float()
     for _ in tqdm(range(iters)):
         for x, y in loader:
             loss = criterion(model.forward(x), y)
