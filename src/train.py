@@ -1,48 +1,51 @@
-import yaml
+from nltk import PorterStemmer
 from tqdm import tqdm
 import torch
 from torch.utils.data import DataLoader
 from src.model.NeuralNet import NeuralNet
-from src.data.BOWDataset import BOWDataSet
+from src.BOWDataset import PatternYml
+from src.transform import get_stem, get_bagging
 
-def main(path: str, save_to: str, iters=1000):
-    with open(path) as file: dataset = yaml.safe_load(file)
-    trainset = BOWDataSet(dataset)
-    loader = DataLoader(dataset=trainset, batch_size=32, shuffle=True, num_workers=0)
+def main(path: str, save_to: str, iters=500):
+  dataset = PatternYml(path)
 
-    # hyper parameter
-    n_inpt = len(trainset.transformer.dictionary)
-    n_hidn = int(n_inpt * 1.2)
-    n_oupt = len(trainset.labels)
-    print(f'hidden nodes\' weight: {n_hidn}\niterations: {iters}')
+  porter_stemmer = PorterStemmer()
+  stem = get_stem(porter_stemmer) # create stemmer
 
-    # read to train
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = NeuralNet(n_inpt, n_hidn, n_oupt).to(device=device)
-    criterion = torch.nn.CrossEntropyLoss()
-    optim = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=0.01)
+  dictionary = list()
+  for feature, label in dataset:
+    token = stem(feature)
+    for word in token: dictionary.append(word)
+  dictionary = list(set(dictionary))
+  bagging = get_bagging(dictionary) # create bagger
+  dataset.transform.Compose([stem, bagging])
 
-    # tra!n
-    loss = float()
-    for _ in tqdm(range(iters)):
-        for x, y in loader:
-            loss = criterion(model.forward(x), y)
-            optim.zero_grad()
-            loss.backward()
-            optim.step()
-    # for for
-    print(f"loss: {loss.item():.4f}")
+  # read to train
+  n_hidn = 10
+  device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+  model = NeuralNet(len(dictionary), n_hidn, len(dataset.classes)).to(device=device)
+  criterion = torch.nn.CrossEntropyLoss()
+  optim = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=0.01)
 
-    # saving the model's parameters and the other data
-    features = {
-        "state": model.state_dict(),
-        "inpt": n_inpt,
-        "hidn": n_hidn,
-        "oupt": n_oupt,
-        "dictionary": trainset.dictionary,
-        "labels": trainset.labels,
-    }  # features
-    torch.save(features, save_to)
+  # tra!n
+  total_loss = 0.
+  for _ in tqdm(range(iters)):
+    for feature, label in DataLoader(dataset, batch_size=1, shuffle=True):
+      loss = criterion(model.forward(feature), label)
+      optim.zero_grad()
+      loss.backward()
+      optim.step()
+      total_loss += loss.item()
+  print(f"loss: {total_loss / len(dataset):.4f}")
+
+  # saving the weights
+  feature = {
+    "state": model.state_dict(),
+    "labels": dataset.classes,
+    "n_hidn": n_hidn,
+    "dictionary": dictionary
+  } # feature
+  torch.save(feature, save_to)
 # __main__
 
-if __name__ == "__main__": main("../src/data/raw/trainset.yml", "../src/model/context_model.pth", iters=1000)
+if __name__ == "__main__": main("../data/raw/trainset.yml", "./model/model.pth")

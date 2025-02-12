@@ -1,19 +1,6 @@
 import argparse
-
-def train(path: str, save_to: str, iters: int):
-  import src.train as trainer
-  trainer.main(path.strip(), save_to, iters)
-# init_train()
-
-def eval(path: str):
-  import src.eval as evaler
-  evaler.main(path)
-# init_eval()
-
-def chat(path: str, response_path: str):
-  import src.chat as chatter
-  chatter.main(path, response_path)
-# init_chat
+from src import train
+from src import chat
 
 def main():
   parser = argparse.ArgumentParser(description="maincmd")
@@ -25,18 +12,11 @@ def main():
   parser_train.add_argument("--path", type=str, help="path to your model")
   parser_train.add_argument("--save-to", type=str, help="path to save your model")
   parser_train.add_argument("--iters", type=int, help="how much iteration your model does for training")
-  parser_train.set_defaults(func=lambda kwargs: train(kwargs.path, kwargs.save_to, kwargs.iters))
-
-  # chat
-  parser_chat = subparser.add_parser("chat", help="chat with your model")
-  parser_chat.add_argument("--path", type=str, help="path to your model")
-  parser_chat.add_argument("--response", type=str, help="path to your responses")
-  parser_chat.set_defaults(func=lambda kwargs: chat(kwargs.path, kwargs.response))
-
+  parser_train.set_defaults(func=lambda kwargs: train.main(path=kwargs.path, save_to=kwargs.save_to, iters=kwargs.iters))
 
   args = parser.parse_args()
   if hasattr(args, 'func'): args.func(args)
-  elif args.path: eval(args.path)
+  elif args.path: chat.main(path=args.path)
   else: print("invalid argument. exiting program.")
 # main():
 
