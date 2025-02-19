@@ -7,7 +7,7 @@ This project is a Contextual Understanding Chatbot that uses Bag-of-Words (BoW) 
 
 The chatbot leverages the Bag-of-Words (BoW) technique to represent user inputs as a collection of word frequency vectors. The model is trained to respond contextually based on pre-defined intents or keywords. This approach focuses on understanding the user's intent and matching it to appropriate responses.
 
-[Test Result on Colab](https://colab.research.google.com/drive/1WGmmHb90CfPTgRTze4QkLJWD7cLWbkY8?usp=sharing)
+> You can access the test result on colab here: [colab](https://colab.research.google.com/drive/1WGmmHb90CfPTgRTze4QkLJWD7cLWbkY8?usp=sharing)
 
 ### Data Preprocessing (BoW)
 * Tokenization: Splitting the text into individual words.
